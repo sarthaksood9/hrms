@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.progress::after{
+  content: "";
+  width: var(--w);
+  height: 100%;
+  position: absolute;
+  left: 0;
+  background-color: rgb(49, 239, 20);
+}
+
+.modelAnimation{
+  transition: all 1s;
+  animation: new 0.4s ease-in;
+}
+
+@keyframes new{
+  from{
+    transform: translateY(-50%);
+  }
+  to{
+    transform: translateY(0%);
+  }
+}
