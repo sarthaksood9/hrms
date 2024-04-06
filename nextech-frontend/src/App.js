@@ -6,18 +6,22 @@ import Silder from './components/Silder';
 
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import AdminRouter from './Routes/AdminRouter';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import EmployeeRoutes from './Routes/EmployeeRoutes';
 import Registration from './components/Registration';
+import { UserContext } from './context/UserContext';
 
 function App() {
-
-  const [user, setUset] = useState("admin")
+  const user=useContext(UserContext);
+  console.log();
+  
+  // console.log(user.user.post)
+  
   return (
     <BrowserRouter>
       <Header />
       <Routes>
-        {user ? <Route path='/*' element={user === "admin" ? <AdminRouter /> : <EmployeeRoutes />}  />: <Route path='/' element={<Registration/>}/>}
+        {user.user ? <Route path='/*' element={user.user.post === "manager" ? <AdminRouter /> : <EmployeeRoutes />}  />: <Route path='/' element={<Registration/>}/>}
       </Routes>
     </BrowserRouter>
   );

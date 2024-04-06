@@ -14,7 +14,6 @@ const AdminRouter = () => {
             <Silder >
                 <Routes>
                     <Route path='/' element={<Projects />} />
-                    <Route path='/login' element={<Registration />} />
                     <Route path='/att' element={<Attofind />} />
                     <Route path='/attendance' element={<Atteandance />} />
                     <Route path='/projects' element={<Projects />} />

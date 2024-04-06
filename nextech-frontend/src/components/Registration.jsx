@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import axios from "axios"
 import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 // import toast from 'react-hot-toast';
 // import { useStore } from "../zustand/userstand.js"
 // import { useNavigate } from 'react-router-dom';
@@ -49,14 +50,15 @@ export const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loader, setLoader] = useState("");
-    const user=useContext(UserContext)
+    const user=useContext(UserContext);
+    const navigate=useNavigate();
 
 
     const hendleLogin=(email,password)=>{
         axios.post("http://localhost:4000/api/v1/user/login",{email,password})
         .then((req,res)=>{
             user.logIn(req.data.user);
-            
+            navigate("/");
         })
         .catch((e)=>{
             console.log(e);

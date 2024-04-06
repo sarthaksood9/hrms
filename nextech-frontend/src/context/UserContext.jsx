@@ -4,7 +4,9 @@ export const UserContext=createContext();
 
 export const UserProvider =({children})=>{
 
-    const [user,setUser]=useState(null);
+    const [user,setUser]=useState(JSON.parse(localStorage.getItem('user'))||null);
+
+   
 
     const logIn=(userData)=>{
         setUser(userData);
@@ -12,7 +14,7 @@ export const UserProvider =({children})=>{
     }
 
 
-    const logOut=(userData)=>{
+    const logOut=()=>{
         setUser(null);
         localStorage.removeItem('user');
     }
