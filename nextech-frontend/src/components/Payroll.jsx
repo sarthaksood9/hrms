@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Table } from 'antd';
+
+import {UserContext} from "../context/UserContext"
 
 const Payroll = () => {
 
@@ -128,6 +130,10 @@ const Payroll = () => {
             salary: "100k"
         },
     ];
+
+    const user=useContext(UserContext);
+    user.logIn("user")
+    console.log(user)
     return (
         <div className=' flex-col h-[100vh] bg-white flex'>
             <h1 className='text-[2.3rem]'>Payrolls</h1>

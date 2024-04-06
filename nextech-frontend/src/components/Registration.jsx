@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-// import axios from "axios"
+import React, { useContext, useState } from 'react'
+import axios from "axios"
+import { UserContext } from '../context/UserContext';
 // import toast from 'react-hot-toast';
 // import { useStore } from "../zustand/userstand.js"
 // import { useNavigate } from 'react-router-dom';
@@ -48,6 +49,24 @@ export const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loader, setLoader] = useState("");
+    const user=useContext(UserContext)
+
+
+    const hendleLogin=(email,password)=>{
+        axios.post("http://localhost:4000/api/v1/user/login",{email,password})
+        .then((req,res)=>{
+            user.logIn(req.data.user);
+            
+        })
+        .catch((e)=>{
+            console.log(e);
+        })
+    }
+
+    console.log(user);
+
+
+
 
 
 
@@ -71,7 +90,7 @@ export const SignIn = () => {
 
 
 
-                <button  className='w-[80%] self-center py-2 text-white border-[2px] rounded-xl bg-[#3E65D3]'>Sign In</button>
+                <button onClick={()=>{hendleLogin(email,password)}}  className='w-[80%] self-center py-2 text-white border-[2px] rounded-xl bg-[#3E65D3]'>Sign In</button>
 
 
             </div>

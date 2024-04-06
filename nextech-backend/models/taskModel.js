@@ -1,25 +1,29 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export const taskSchema= new mongoose.Schema({
-    TaskName:{
-        type:String,
-        require:true
+export const taskSchema = new mongoose.Schema({
+    TaskName: {
+        type: String,
+        require: true
     },
-    TaskAssingedTo:[{
-        type: Schema.Types.ObjectId, 
-        ref: 'User' 
-        // require:true,
+    project: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Projects',
+        required: true
+    },
+    assignedTo: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'employees'
     }],
-    TaskDiscription:{
-        type:String,
-        require:true
+    TaskDiscription: {
+        type: String,
+        require: true
     },
-    TaskDeadLine:{
-        type:Date,
-        require:true
+    TaskDeadLine: {
+        type: Date,
+        require: true
     }
 })
 
-const taskModel=mongoose.model("tasks",taskSchema);
+const taskModel = mongoose.model("tasks", taskSchema);
 
 export default taskModel;
