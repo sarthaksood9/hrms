@@ -5,6 +5,9 @@ import { UserContext } from '../context/UserContext';
 const Header = () => {
   const navigate = useNavigate();
 
+  const arr=["sarthak","sood"];
+  console.log(arr.toString());
+
   const user = useContext(UserContext);
   return (
     <div className='h-14 w-full z-10 fixed top-0 shadow-black bg-slate-300 flex justify-between items-center px-12'>

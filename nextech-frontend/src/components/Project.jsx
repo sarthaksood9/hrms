@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Progress, Table } from 'antd';
 import { CiEdit } from "react-icons/ci";
 import { useState } from 'react';
 
 import { DeleteModel, EditProject } from "./Models"
+import axios from 'axios';
 
 
 const columns = [
@@ -29,6 +30,9 @@ const columns = [
   },
 
 ];
+
+
+
 const data = [
   {
     key: 1,
@@ -93,14 +97,70 @@ const TeamData = [
 const Project = () => {
   const [deleteModel, setDeleteModel] = useState(false);
   const [projectEdit, setProjectEdit] = useState(false);
-  console.log(deleteModel);
+
 
   const HendleDeleteClose = () => {
     setDeleteModel(false);
   }
   const HandleProfileEditClose = () => {
     setProjectEdit(false);
+
+
   }
+
+  const [tasks, setTasks] = useState(null);
+
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/tasksforuser/660ad5d3c615642b362c3146")
+      .then((req, res) => {
+        setTasks(req.data);
+        console.log(tasks.tasks);
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+
+
+  }, [])
+
+  const [d,setD]=useState("")
+
+ useEffect(()=>{
+  if(tasks){
+    const mappedTasks = tasks.tasks.map((task) => {
+      const da=new Date(task.TaskDeadLine);
+      return {
+        key: task._id,
+        name: task.TaskName,
+        status: "Done",
+        asigned: task.assignedTo.map(m => {
+          return m.name
+        }),
+        deadLine: da.toLocaleString() ,
+        description: task.TaskDiscription,
+      };
+    });
+    console.log(mappedTasks);
+    setD(mappedTasks);
+  }
+ },[tasks])
+
+  
+
+
+
+  // const mappedObject = Object.fromEntries(
+  //   tasks.tasks.map(obj => [obj.TaskName, obj.project])
+  // );
+
+  // console.log(mappedObject);
+
+
+
+
+
+  // console.log(d);
   return (
     <div className='flex flex-col'>
       <div className='flex flex-col justify-start items-start gap-7 '>
@@ -133,7 +193,7 @@ const Project = () => {
               ),
               rowExpandable: (record) => record.name !== 'Not Expandable',
             }}
-            dataSource={data}
+            dataSource={d}
           />
         </div>
 
