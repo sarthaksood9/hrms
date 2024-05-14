@@ -4,7 +4,8 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
-import taskModel, { taskSchema } from "./models/TaskModel.js";
+import taskModel from "./models/TaskModel.js";
+import userModel from "./models/userModel.js";
 
 
 const app = express();
@@ -59,6 +60,36 @@ app.post('/tasks', async (req, res) => {
     }
 });
 
+app.put('/tasks/:id', async (req, res) => {
+    try {
+        const taskId = req.params.id; // Get task ID from URL parameter
+        const { TaskName, assignedTo, TaskDiscription, TaskDeadLine, project,taskStatus } = req.body;
+
+        // Find the task by ID and update it with the new data
+        const updatedTask = await taskModel.findByIdAndUpdate(
+            taskId,
+            {
+                TaskName: TaskName,
+                project: project,
+                assignedTo: assignedTo,
+                TaskDiscription: TaskDiscription,
+                TaskDeadLine: TaskDeadLine,
+                taskStatus:taskStatus
+            },
+            { new: true, runValidators: true } // Return the updated document and apply schema validation
+        );
+
+        if (!updatedTask) {
+            return res.status(404).json({ message: 'Task not found' }); // If the task doesn't exist
+        }
+
+        return res.status(200).json({ message: 'Task updated successfully', task: updatedTask }); // Successful update
+    } catch (error) {
+        return res.status(500).json({ message: error.message }); // Handle errors
+    }
+});
+
+
 app.get("/protasks/:id", async (req, res) => {
     console.log(req.params.id);
 
@@ -82,6 +113,28 @@ app.get("/tasksforuser/:id", async (req, res) => {
         throw error;
     }
 })
+
+app.get('/allemployees',async (req,res)=>{
+    try{
+        const allEmp=  await userModel.find({},"_id name");
+        res.status(201).json(allEmp)
+    }
+    catch(e){
+        console.log(e);
+
+    }
+})
+// app.get('/allemployeesbyname',async (req,res)=>{
+//     try{
+//         const {query}=req.query;
+//         // const employees = await userModel.find({ name: { $regex: query } });
+//         res.status(201).send(query)
+//     }
+//     catch(e){
+//         console.log(e);
+
+//     }
+// })
 
 
 

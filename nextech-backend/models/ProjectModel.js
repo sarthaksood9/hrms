@@ -9,10 +9,10 @@ const ProjectSchema = new mongoose.Schema({
         require: true,
         unique:true
     },
-    ProjectMambers:{
-        type:[String],
-        require:true,
-    },
+    ProjectMambers:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'employees'
+    }],
     ProjectDiscription:{
         type:String,
         require:true,

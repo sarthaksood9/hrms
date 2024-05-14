@@ -21,6 +21,10 @@ export const taskSchema = new mongoose.Schema({
     TaskDeadLine: {
         type: Date,
         require: true
+    },
+    taskStatus:{
+        type:String,
+        require:true,
     }
 })
 

@@ -3,7 +3,7 @@ import { Progress, Table } from 'antd';
 import { CiEdit } from "react-icons/ci";
 import { useState } from 'react';
 
-import { DeleteModel, EditProject } from "./Models"
+import { DeleteModel, EditProject, EditTask } from "./Models"
 import axios from 'axios';
 
 
@@ -58,6 +58,7 @@ const data = [
     asigned: 'Sydney No. 1 Lake Park',
     deadLine: "12/09/2024",
     description: 'My name is Joe Black, I am 32 years old, living in Sydney No. 1 Lake Park.',
+
   },
 ];
 
@@ -97,15 +98,17 @@ const TeamData = [
 const Project = () => {
   const [deleteModel, setDeleteModel] = useState(false);
   const [projectEdit, setProjectEdit] = useState(false);
+  const [taksEdit, setTeaskEdit] = useState(false);
 
 
   const HendleDeleteClose = () => {
     setDeleteModel(false);
   }
-  const HandleProfileEditClose = () => {
+  const HandleProjectEditClose = () => {
     setProjectEdit(false);
-
-
+  }
+  const HandleTaskEditClose = () => {
+    setTeaskEdit(false);
   }
 
   const [tasks, setTasks] = useState(null);
@@ -124,43 +127,56 @@ const Project = () => {
 
   }, [])
 
-  const [d,setD]=useState("")
+  const [d, setD] = useState("")
 
- useEffect(()=>{
-  if(tasks){
-    const mappedTasks = tasks.tasks.map((task) => {
-      const da=new Date(task.TaskDeadLine);
-      return {
-        key: task._id,
-        name: task.TaskName,
-        status: "Done",
-        asigned: task.assignedTo.map(m => {
-          return m.name
-        }),
-        deadLine: da.toLocaleString() ,
-        description: task.TaskDiscription,
-      };
+  useEffect(() => {
+    if (tasks) {
+      const mappedTasks = tasks.tasks.map((task) => {
+        const da = new Date(task.TaskDeadLine);
+        return {
+          key: task._id,
+          name: task.TaskName,
+          status: task.taskStatus,
+          asigned: task.assignedTo.map(m => {
+            return m.name
+          }),
+          asignedId: task.assignedTo.map(m => {
+            return m._id;
+          }),
+          deadLine: da.toLocaleString(),
+          description: task.TaskDiscription,
+        };
+      });
+
+      setD(mappedTasks);
+    }
+  }, [tasks])
+
+  const [formData, setFormData] = useState({
+    key: '',
+    name: '',
+    status: "Done",
+    asigned: '',
+    deadLine: "",
+    description: '',
+    asignedId: ""
+  })
+
+  const RowClicked = (record) => {
+    console.log(record.asignedId)
+    setFormData({
+      name: record.name,
+      status: 'done',
+      asigned: record.asigned,
+      deadLine: record.deadLine,
+      description: record.description,
+      asignedId: record.asignedId,
+      _id:record.key,
+      project:"660ee152ab71d46464015fdd"
+
     });
-    console.log(mappedTasks);
-    setD(mappedTasks);
+    setTeaskEdit(true);
   }
- },[tasks])
-
-  
-
-
-
-  // const mappedObject = Object.fromEntries(
-  //   tasks.tasks.map(obj => [obj.TaskName, obj.project])
-  // );
-
-  // console.log(mappedObject);
-
-
-
-
-
-  // console.log(d);
   return (
     <div className='flex flex-col'>
       <div className='flex flex-col justify-start items-start gap-7 '>
@@ -181,6 +197,9 @@ const Project = () => {
           <Table
             className='w-full'
             columns={columns}
+            onRow={(record) => ({
+              onClick: () => RowClicked(record)
+            })}
             expandable={{
               expandedRowRender: (record) => (
                 <p
@@ -217,7 +236,15 @@ const Project = () => {
 
       {projectEdit && <>
 
-        <EditProject mod={HandleProfileEditClose} />
+        <EditProject mod={HandleProjectEditClose} />
+        <style>
+          {`body{ overflow:hidden; }`}
+        </style>
+      </>
+      }
+      {taksEdit && <>
+
+        <EditTask mod={HandleTaskEditClose} formData={formData} />
         <style>
           {`body{ overflow:hidden; }`}
         </style>
