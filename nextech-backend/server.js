@@ -6,6 +6,7 @@ import userRoutes from "./routes/userRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import taskModel from "./models/TaskModel.js";
 import userModel from "./models/userModel.js";
+import ProjectModel from "./models/ProjectModel.js";
 
 
 const app = express();
@@ -37,19 +38,21 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/admin", projectRoutes)
+// app.use("/projectinfo/:id",projectRoutes)
 
 console.log(new Date)
 
 
 app.post('/tasks', async (req, res) => {
     try {
-        const { TaskName, assignedTo, TaskDiscription, TaskDeadLine, project } = req.body;
+        const { TaskName, assignedTo, TaskDiscription, TaskDeadLine, project,taskStatus } = req.body;
         const task = await taskModel.create({
             TaskName: TaskName,
             project: project,
             assignedTo: assignedTo,
             TaskDiscription: TaskDiscription,
             TaskDeadLine: TaskDeadLine,
+            taskStatus:taskStatus
 
         })
         console.log(task);
@@ -94,7 +97,7 @@ app.get("/protasks/:id", async (req, res) => {
     console.log(req.params.id);
 
     try {
-        const tasks = await taskModel.find({ project: req.params.id });
+        const tasks = await taskModel.find({ project: req.params.id }).populate("assignedTo");
 
         return res.status(201).json({ tasks });
     }
@@ -124,6 +127,22 @@ app.get('/allemployees',async (req,res)=>{
 
     }
 })
+
+app.get("/projectinfo/:id",async(req, res) => {
+    try {
+        const ProjectId = req.params.id;
+
+        const project = await ProjectModel.findById(ProjectId);
+
+        return res.status(201).json(project);
+    }
+    catch(e){
+        console.log(e);
+        res.status(500).json({message:"Internal Server error"})
+    }
+})
+
+
 // app.get('/allemployeesbyname',async (req,res)=>{
 //     try{
 //         const {query}=req.query;

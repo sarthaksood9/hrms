@@ -3,7 +3,7 @@ import { Progress, Table } from 'antd';
 import { CiEdit } from "react-icons/ci";
 import { useState } from 'react';
 
-import { DeleteModel, EditProject, EditTask } from "./Models"
+import { AddTask, DeleteModel, EditProject, EditTask } from "./Models"
 import axios from 'axios';
 
 
@@ -20,7 +20,7 @@ const columns = [
   },
   {
     title: 'Asigned To',
-    dataIndex: 'asigned',
+    dataIndex: 'asignedShow',
     key: 'asigned',
   },
   {
@@ -31,36 +31,6 @@ const columns = [
 
 ];
 
-
-
-const data = [
-  {
-    key: 1,
-    name: 'John Brown',
-    status: "Done",
-    asigned: "Sarthak Sood",
-    deadLine: "12/09/2024",
-    description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-  },
-  {
-    key: 2,
-    name: 'Jim Green',
-    status: "Done",
-    asigned: 'London No. 1 Lake Park',
-    deadLine: "12/09/2024",
-    description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-  },
-
-  {
-    key: 3,
-    name: 'Joe Black',
-    status: "Done",
-    asigned: 'Sydney No. 1 Lake Park',
-    deadLine: "12/09/2024",
-    description: 'My name is Joe Black, I am 32 years old, living in Sydney No. 1 Lake Park.',
-
-  },
-];
 
 const TeamColumns = [
   {
@@ -96,9 +66,15 @@ const TeamData = [
 
 
 const Project = () => {
+
+  // Models Open useState
+
   const [deleteModel, setDeleteModel] = useState(false);
   const [projectEdit, setProjectEdit] = useState(false);
   const [taksEdit, setTeaskEdit] = useState(false);
+  const [addtask, setAddtask] = useState(false);
+
+  // Models Colse Functions:-
 
 
   const HendleDeleteClose = () => {
@@ -110,15 +86,22 @@ const Project = () => {
   const HandleTaskEditClose = () => {
     setTeaskEdit(false);
   }
+  const HandleTaskAddClose = () => {
+    setAddtask(false);
+  }
+
+  // ---------------------------tasks-------------------------------------------
 
   const [tasks, setTasks] = useState(null);
 
+  // fatching tasks from backend:-
+
 
   useEffect(() => {
-    axios.get("http://localhost:4000/tasksforuser/660ad5d3c615642b362c3146")
+    axios.get("http://localhost:4000/protasks/660ee152ab71d46464015fdd")
       .then((req, res) => {
         setTasks(req.data);
-        console.log(tasks.tasks);
+        console.log(req.data);
       })
       .catch((e) => {
         console.log(e)
@@ -127,7 +110,9 @@ const Project = () => {
 
   }, [])
 
-  const [d, setD] = useState("")
+  const [d, setD] = useState("");
+
+  // setting/mapping backend data to prefered table schema :-
 
   useEffect(() => {
     if (tasks) {
@@ -139,6 +124,9 @@ const Project = () => {
           status: task.taskStatus,
           asigned: task.assignedTo.map(m => {
             return m.name
+          }),
+          asignedShow: task.assignedTo.map((m, i) => {
+            return task.assignedTo.length != i + 1 ? m.name + "," : m.name
           }),
           asignedId: task.assignedTo.map(m => {
             return m._id;
@@ -152,15 +140,8 @@ const Project = () => {
     }
   }, [tasks])
 
-  const [formData, setFormData] = useState({
-    key: '',
-    name: '',
-    status: "Done",
-    asigned: '',
-    deadLine: "",
-    description: '',
-    asignedId: ""
-  })
+
+  // Task table Edit Click Functionality:-
 
   const RowClicked = (record) => {
     console.log(record.asignedId)
@@ -171,26 +152,59 @@ const Project = () => {
       deadLine: record.deadLine,
       description: record.description,
       asignedId: record.asignedId,
-      _id:record.key,
-      project:"660ee152ab71d46464015fdd"
+      _id: record.key,
+      project: "660ee152ab71d46464015fdd"
 
     });
     setTeaskEdit(true);
   }
+
+  // setting from data to pass to edit task model as prop:-
+
+
+  const [formData, setFormData] = useState({
+    key: '',
+    name: '',
+    status: "Done",
+    asigned: '',
+    deadLine: "",
+    description: '',
+    asignedId: ""
+  })
+
+
+
+const [ProjectData,setProjectData]=useState();
+
+useEffect(()=>{
+  const fatchProject=async()=>{
+    await axios.get('http://localhost:4000/projectinfo/660aeb6c601d44fd5b475496')
+    .then((req,res)=>{
+      console.log(req.data);
+      setProjectData(req.data);
+    })
+    .catch((e)=>{
+      console.log(e);
+    })
+  }
+  fatchProject();
+},[])
+
+const ProjectDeadLineDate=new Date(ProjectData?.ProjectDeadLine);
   return (
     <div className='flex flex-col'>
       <div className='flex flex-col justify-start items-start gap-7 '>
         <div>
-          <h1 className='text-[2rem]'>Project Name</h1>
+          <h1 className='text-[2rem]'>{ProjectData?.Projectname}</h1>
         </div>
         <div className='text-start'>
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Temporibus culpa aspernatur similique expedita facere beatae odit? Dolores, modi dolor assumenda obcaecati asperiores corrupti fugiat est, esse ducimus facilis, dolorem provident.
+          {ProjectData?.ProjectDiscription}
           </p>
         </div>
         <div className='flex flex-col gap-1'>
           <h2 className='text-[1.2rem] font-semibold'>DeadLine:-</h2>
-          <p className='text-start'>12/06/24</p>
+          <p className='text-start'>{ProjectDeadLineDate.toLocaleString()}</p>
         </div>
         <div className='w-full flex flex-col items-start gap-4'>
           <h1 className='text-[1.3rem]'>Tasks</h1>
@@ -214,6 +228,13 @@ const Project = () => {
             }}
             dataSource={d}
           />
+
+          <div className='flex text-white gap-4 self-end'>
+            <button onClick={() => {
+              setAddtask(true)
+            }} className='px-5 py-2 rounded-full bg-[#3E65D3] flex items-center gap-2'> Add Task <CiEdit /></button>
+            
+          </div>
         </div>
 
         <div className='w-full flex justify-around h-fit '>
@@ -236,7 +257,7 @@ const Project = () => {
 
       {projectEdit && <>
 
-        <EditProject mod={HandleProjectEditClose} />
+        <EditProject mod={HandleProjectEditClose} data={ProjectData} />
         <style>
           {`body{ overflow:hidden; }`}
         </style>
@@ -255,6 +276,15 @@ const Project = () => {
         <>
 
           <DeleteModel mod={HendleDeleteClose} />
+          <style>
+            {`body{ overflow:hidden; }`}
+          </style>
+        </>
+      }
+      {addtask &&
+        <>
+
+          <AddTask mod={HandleTaskAddClose} formData={{project:"660ee152ab71d46464015fdd"}} />
           <style>
             {`body{ overflow:hidden; }`}
           </style>
