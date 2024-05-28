@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Progress, Table } from 'antd';
 import { CiEdit } from "react-icons/ci";
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { AddTask, DeleteModel, EditProject, EditTask } from "./Models"
 import axios from 'axios';
@@ -67,6 +68,12 @@ const TeamData = [
 
 const Project = () => {
 
+  const {projectId}=useParams();
+
+  console.log(projectId)
+
+  
+
   // Models Open useState
 
   const [deleteModel, setDeleteModel] = useState(false);
@@ -98,7 +105,7 @@ const Project = () => {
 
 
   useEffect(() => {
-    axios.get("http://localhost:4000/protasks/660ee152ab71d46464015fdd")
+    axios.get(`http://localhost:4000/protasks/${projectId}`)
       .then((req, res) => {
         setTasks(req.data);
         console.log(req.data);
@@ -153,7 +160,7 @@ const Project = () => {
       description: record.description,
       asignedId: record.asignedId,
       _id: record.key,
-      project: "660ee152ab71d46464015fdd"
+      project: projectId
 
     });
     setTeaskEdit(true);
@@ -284,7 +291,7 @@ const ProjectDeadLineDate=new Date(ProjectData?.ProjectDeadLine);
       {addtask &&
         <>
 
-          <AddTask mod={HandleTaskAddClose} formData={{project:"660ee152ab71d46464015fdd"}} />
+          <AddTask mod={HandleTaskAddClose} formData={{project:projectId}} />
           <style>
             {`body{ overflow:hidden; }`}
           </style>

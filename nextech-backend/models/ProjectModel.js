@@ -26,6 +26,10 @@ const ProjectSchema = new mongoose.Schema({
     },
     tasks:{
         type:[taskSchema]
+    },
+    percentageDone: {
+        type: Number,
+        default: 0
     }
 })
 

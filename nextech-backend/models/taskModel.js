@@ -8,7 +8,7 @@ export const taskSchema = new mongoose.Schema({
     project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Projects',
-        required: true
+        // required: true
     },
     assignedTo: [{
         type: mongoose.Schema.Types.ObjectId,

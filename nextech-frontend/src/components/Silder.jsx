@@ -26,7 +26,7 @@ const Silder = ({ children }) => {
 
                 </div>
             </div>
-            <main className='h-full w-[80%] ml-[15.5%] py-[6rem] px-10 '>
+            <main className='h-full w-[80%] ml-[15.5%] py-[6rem] px-10  '>
                 {children}
             </main>
         </div>
