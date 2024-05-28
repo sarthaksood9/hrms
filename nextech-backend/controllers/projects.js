@@ -3,7 +3,7 @@ import taskModel from "../models/TaskModel.js";
 
 
 export const createProject = async (req, res) => {
-    const { Projectname, ProjectMambers, ProjectDiscription, ProjectDeadLine, ProjectStatus,tasks } = req.body;
+    const { Projectname, ProjectMambers, ProjectDiscription, ProjectDeadLine, ProjectStatus, tasks } = req.body;
     const obj = req.body;
 
     try {
@@ -51,12 +51,13 @@ const updatePercentageDone = async (projectId) => {
     const tasks = await taskModel.find({ project: projectId });
 
     const totalTasks = tasks.length;
-    console.log(totalTasks,projectId)
+    console.log(totalTasks, projectId)
     const doneTasks = tasks.filter(task => task.taskStatus === 'Done').length;
 
     const percentageDone = totalTasks > 0 ? (doneTasks / totalTasks) * 100 : 0;
 
     await ProjectModel.findByIdAndUpdate(projectId, { percentageDone });
+
 };
 
 
@@ -87,12 +88,16 @@ export const ProjectInfo = async (req, res) => {
     try {
         const ProjectId = req.params.id;
 
-        const project = await ProjectModel.findById(ProjectId);
 
-        return res.status(201).json(project);
+        await updatePercentageDone(ProjectId);
+
+
+        const updatedProjects = await ProjectModel.findById(ProjectId);
+
+        return res.status(201).json(updatedProjects);
     }
-    catch(e){
+    catch (e) {
         console.log(e);
-        res.status(500).json({message:"Internal Server error"})
+        res.status(500).json({ message: "Internal Server error" })
     }
 }

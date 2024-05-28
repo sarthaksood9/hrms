@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Progress, Table } from 'antd';
 import { CiEdit } from "react-icons/ci";
 import { useState } from 'react';
@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 
 import { AddTask, DeleteModel, EditProject, EditTask } from "./Models"
 import axios from 'axios';
+
+import Chart from "chart.js/auto"
 
 
 const columns = [
@@ -68,11 +70,8 @@ const TeamData = [
 
 const Project = () => {
 
-  const {projectId}=useParams();
+  const { projectId } = useParams();
 
-  console.log(projectId)
-
-  
 
   // Models Open useState
 
@@ -108,7 +107,6 @@ const Project = () => {
     axios.get(`http://localhost:4000/protasks/${projectId}`)
       .then((req, res) => {
         setTasks(req.data);
-        console.log(req.data);
       })
       .catch((e) => {
         console.log(e)
@@ -181,23 +179,65 @@ const Project = () => {
 
 
 
-const [ProjectData,setProjectData]=useState();
+  const [ProjectData, setProjectData] = useState();
 
-useEffect(()=>{
-  const fatchProject=async()=>{
-    await axios.get('http://localhost:4000/projectinfo/660aeb6c601d44fd5b475496')
-    .then((req,res)=>{
-      console.log(req.data);
-      setProjectData(req.data);
-    })
-    .catch((e)=>{
-      console.log(e);
-    })
-  }
-  fatchProject();
-},[])
+  useEffect(() => {
+    const fatchProject = async () => {
+      await axios.get(`http://localhost:4000/api/v1/admin/projectinfo/${projectId}`)
+        .then((req, res) => {
+          setProjectData(req.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+    }
+    fatchProject();
+  }, [])
 
-const ProjectDeadLineDate=new Date(ProjectData?.ProjectDeadLine);
+
+
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
+
+  const sss=Math.round(ProjectData?.percentageDone);
+  const fff=100-Math.round(ProjectData?.percentageDone);
+
+
+  useEffect(() => {
+    if (chartInstance.current) {
+      chartInstance.current.destroy()
+    }
+    const myChartRef = chartRef.current.getContext('2d');
+
+    chartInstance.current = new Chart(myChartRef, {
+      type: "pie",
+      data: {
+        labels: ["Compleated Tasks", "Panding Tasks"],
+        datasets: [{
+          data: [sss,fff],
+          backgroundColor: [
+            'rgb(255,99,132)',
+            'rgb(44,162,235)'
+          ]
+        }
+        ]
+      }
+    })
+
+    return()=>{
+      if (chartInstance.current) {
+        chartInstance.current.destroy()
+      }
+    }
+  },[ProjectData])
+
+  console.log(ProjectData);
+
+
+
+
+
+  const ProjectDeadLineDate = new Date(ProjectData?.ProjectDeadLine);
   return (
     <div className='flex flex-col'>
       <div className='flex flex-col justify-start items-start gap-7 '>
@@ -206,7 +246,7 @@ const ProjectDeadLineDate=new Date(ProjectData?.ProjectDeadLine);
         </div>
         <div className='text-start'>
           <p>
-          {ProjectData?.ProjectDiscription}
+            {ProjectData?.ProjectDiscription}
           </p>
         </div>
         <div className='flex flex-col gap-1'>
@@ -240,14 +280,21 @@ const ProjectDeadLineDate=new Date(ProjectData?.ProjectDeadLine);
             <button onClick={() => {
               setAddtask(true)
             }} className='px-5 py-2 rounded-full bg-[#3E65D3] flex items-center gap-2'> Add Task <CiEdit /></button>
-            
+
           </div>
         </div>
 
-        <div className='w-full flex justify-around h-fit '>
+        {/* <div className='w-full flex justify-around h-fit '>
           <div className='flex w-[50%] flex-col gap-4'>
             <h1 className='text-[1.3rem]'>Team:</h1>
             <Table dataSource={TeamData} columns={TeamColumns} />
+          </div>
+
+        </div> */}
+        <div className='w-full flex justify-around h-fit '>
+          <div className='flex w-[50%] flex-col gap-4'>
+            <h1 className='text-[1.3rem]'>Task Status:</h1>
+            <canvas ref={chartRef} style={{ width: "300px", height: "200px" }} />
           </div>
 
         </div>
@@ -291,7 +338,7 @@ const ProjectDeadLineDate=new Date(ProjectData?.ProjectDeadLine);
       {addtask &&
         <>
 
-          <AddTask mod={HandleTaskAddClose} formData={{project:projectId}} />
+          <AddTask mod={HandleTaskAddClose} formData={{ project: projectId }} />
           <style>
             {`body{ overflow:hidden; }`}
           </style>

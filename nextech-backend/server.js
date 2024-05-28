@@ -128,19 +128,6 @@ app.get('/allemployees',async (req,res)=>{
     }
 })
 
-app.get("/projectinfo/:id",async(req, res) => {
-    try {
-        const ProjectId = req.params.id;
-
-        const project = await ProjectModel.findById(ProjectId);
-
-        return res.status(201).json(project);
-    }
-    catch(e){
-        console.log(e);
-        res.status(500).json({message:"Internal Server error"})
-    }
-})
 
 
 // app.get('/allemployeesbyname',async (req,res)=>{
