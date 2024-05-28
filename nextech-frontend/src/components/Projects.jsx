@@ -20,7 +20,7 @@ const Projects = () => {
     }, [])
 
     console.log(projects)
-    const v = 69;
+
     return (
 
         <>
@@ -28,6 +28,7 @@ const Projects = () => {
             <div className='w-full flex gap-6 flex-wrap'>
                 {projects?.map((i, x) => {
                     const date=new Date(i.ProjectDeadLine)
+                    const v = Math.round(i.percentageDone);
                     return (
                         <div className='p-3 py-5 shadow-2xl flex flex-col gap-6 rounded-2xl max-w-[17rem] flex-wrap cursor-pointer' onClick={() => { navigate(`/project/${i._id}`) }}>
                             <div className='flex items-center gap-6 justify-between'>
@@ -45,7 +46,7 @@ const Projects = () => {
                                 </div>
                             </div>
                             <div className='progress relative overflow-hidden rounded-3xl bg-slate-400 w-full h-[0.5rem]' style={{
-                                "--w": `${50}%`,
+                                "--w": `${v}%`,
                             }}></div>
                         </div>
                     )
