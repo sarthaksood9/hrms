@@ -7,6 +7,8 @@ import Payroll from '../components/Payroll'
 import Project from '../components/Project'
 import Silder from '../components/Silder'
 import { Route, Routes } from 'react-router-dom'
+import Addemployee from '../components/Addemployee'
+import Addproject from '../components/Addproject'
 
 const AdminRouter = () => {
     return (
@@ -19,6 +21,8 @@ const AdminRouter = () => {
                     <Route path='/projects' element={<Projects />} />
                     <Route path='/payroll' element={<Payroll />} />
                     <Route path='/project/:projectId' element={<Project />} />
+                    <Route path='/create' element={<Addemployee />} />
+                    <Route path='/addproject' element={<Addproject />} />
                 </Routes>
             </Silder>
         </>

@@ -1,5 +1,6 @@
 import userModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 
 
 export const registration = async (req, res) => {
@@ -22,7 +23,36 @@ export const registration = async (req, res) => {
                 post: post,
                 phone: phone
     
-            })
+            });
+
+
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                secure: true,
+                port: 465,
+                auth: {
+                    user: 'sarthaksood09@gmail.com',
+                    pass: 'dqdbluxcwvtmymbq'
+                }
+            });
+
+            const mailOptions = {
+                from: 'sarthaksood09@gmail.com', // sender address
+                to: "sarthaksood00@gmail.com",
+                subject: 'Registration Confirmation',
+                text: `Hello ${name},\n\nThank you for registering. Your account has been created successfully.`
+            };
+
+            console.log(email);
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log('Error sending email:', error);
+                } else {
+                    console.log('Email sent:', info.response);
+                }
+            });
             return res.status(201).json({message:"Regester Successfully",newEmployee});
         }
     }

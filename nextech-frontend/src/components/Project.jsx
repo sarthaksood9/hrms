@@ -194,6 +194,8 @@ const Project = () => {
     fatchProject();
   }, [])
 
+  console.log(tasks)
+
 
 
   const chartRef = useRef(null);

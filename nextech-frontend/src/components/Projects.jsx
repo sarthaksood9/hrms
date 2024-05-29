@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { CiEdit } from 'react-icons/ci';
 import { MdPendingActions } from "react-icons/md"
+import { FaPlus } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
 const Projects = () => {
@@ -52,6 +54,12 @@ const Projects = () => {
                     )
                 })}
             </div>
+            <div className='flex absolute bottom-10 right-14 text-white gap-4 self-end'>
+                    <button onClick={() => {
+                        navigate("/addproject")
+                    }} className='px-5 py-2 rounded-full text-[1.2rem] bg-[#3E65D3] flex items-center gap-2'> <b>Add Task</b> <FaPlus /></button>
+
+                </div>
         </>
     )
 }
