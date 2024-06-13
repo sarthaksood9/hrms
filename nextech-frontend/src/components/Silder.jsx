@@ -18,7 +18,7 @@ const Silder = ({ children }) => {
                         <PiProjectorScreenLight /><h1 className='self-end'>Projects</h1>
                     </div>
                     <div onClick={() => { navigate('/payroll') }} className='w-full py-2 border-b-rose-50 border-b-[0.8px] flex justify-center items-center text-[1.1rem] gap-3'>
-                        <PiCurrencyCircleDollarLight /><h1 className=''>Payrolls</h1>
+                        <PiCurrencyCircleDollarLight /><h1 className=''>Employees</h1>
                     </div>
                     <div onClick={() => { navigate('/attendance') }} className='w-full py-2 border-b-rose-50 border-b-[0.8px] flex justify-center items-center text-[1.1rem] gap-3'>
                         <MdOutlineCoPresent /><h1 className=''>Attendance</h1>

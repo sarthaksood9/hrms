@@ -206,6 +206,7 @@ export function EditTask({ mod, formData }) {
       await axios.get("http://localhost:4000/allemployees")
         .then((req, res) => {
           setAllemployees(req.data);
+         
         })
         .catch((e) => {
           console.log(e);
@@ -282,12 +283,15 @@ export function EditTask({ mod, formData }) {
     }).then(() => {
       console.log("done");
       mod();
+      window.location.href = window.location.href;
     }).catch((e) => {
       console.log(e);
     })
   }
 
   console.log(formData.project)
+
+  
 
 
 
@@ -505,6 +509,7 @@ export function AddTask({ formData , mod }) {
       await axios.get("http://localhost:4000/allemployees")
         .then((req, res) => {
           setAllemployees(req.data);
+          
         })
         .catch((e) => {
           console.log(e);
@@ -582,6 +587,7 @@ export function AddTask({ formData , mod }) {
     }).then(() => {
       console.log("done");
       mod();
+      window.location.href = window.location.href;
     }).catch((e) => {
       console.log(e);
     })

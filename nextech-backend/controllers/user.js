@@ -39,9 +39,21 @@ export const registration = async (req, res) => {
 
             const mailOptions = {
                 from: 'sarthaksood09@gmail.com', // sender address
-                to: "sarthaksood00@gmail.com",
-                subject: 'Registration Confirmation',
-                text: `Hello ${name},\n\nThank you for registering. Your account has been created successfully.`
+                to: {email},
+                subject: 'Welcome to Nextech',
+                html: `
+                <p>Dear ${name},</p>
+                <p>Welcome to <strong>Company Name</strong>!</p>
+                <p>We are excited to have you join our team. Here are your login credentials to get you started:</p>
+                <ul>
+                    <li><strong>Email</strong>: ${email}</li>
+                    <li><strong>Temporary Password</strong>: ${password}</li>
+                </ul>
+                <p>Please log in and change your password as soon as possible. If you encounter any issues, feel free to reach out to our IT support team at <a href="mailto:itsupport@company.com">itsupport@company.com</a>.</p>
+                <p>We're thrilled to have you on board and look forward to seeing your contributions to our success.</p>
+                <p>Best regards,</p>
+                <p>Your Name<br>Your Position<br>Company Name<br>Contact Information</p>
+            `
             };
 
             console.log(email);
@@ -63,6 +75,8 @@ export const registration = async (req, res) => {
     }
     
 }
+
+
 
 
 export const login = async (req, res) => {

@@ -1,4 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function EmployeeForm() {
     const [employee, setEmployee] = useState({
@@ -22,11 +25,21 @@ function EmployeeForm() {
     //     "post": "manager",
     // "phone": 9518849040
 
+    const navigate=useNavigate()
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(employee);
+        console.log("asfas");
+        axios.post(`http://localhost:4000/api/v1/user/registration`,employee ).then(() => {
+            console.log("done");
+            toast.success("Employee Added Successfully")
+            navigate("/projects");
+        }).catch((e) => {
+            console.log(e);
+        })
+    }
         // Send the employee data to the backend API or perform any other action
-    };
+    
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -40,7 +53,7 @@ function EmployeeForm() {
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label className="block mb-2">
                         Name:
-                        <input type="text" name="firstName" value={employee.firstName} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
+                        <input type="text" name="name" value={employee.name} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
                     </label>
                     <label className="block mb-2">
                         Email:
@@ -48,7 +61,7 @@ function EmployeeForm() {
                     </label>
                     <label className="block mb-2">
                     Post:
-                        <input type="text" name="jobTitle" value={employee.jobTitle} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
+                        <input type="text" name="post" value={employee.post} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
                     </label>
                     <label className="block mb-2">
                         Salary:
@@ -58,24 +71,24 @@ function EmployeeForm() {
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block mb-2">
                         Password:
-                        <input type="text" name="lastName" value={employee.password} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
+                        <input type="password" name="password" value={employee.password} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
                     </label>
                     <label className="block mb-2">
                         Phone Number:
-                        <input type="tel" name="phoneNumber" value={employee.phoneNumber} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
+                        <input type="number" name="phone" value={employee.phone} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
                     </label>
                     <label className="block mb-2">
                         Age:
-                        <input type="number" name="hireDate" value={employee.age} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
+                        <input type="number" name="age" value={employee.age} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
                     </label>
                     <label className="block mb-2">
                         Address:
-                        <textarea type="t" name="department" value={employee.address} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
+                        <textarea type="t" name="address" value={employee.address} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-purple-50" />
                     </label>
 
                 </div>
             </div>
-            <button type="submit" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+            <button type="submit" className="bg-[#3E65D3] w-full text-white font-bold py-2 px-4 rounded">ADD</button>
         </form>
     );
 }

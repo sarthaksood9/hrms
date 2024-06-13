@@ -88,7 +88,7 @@ export const SignIn = () => {
 
                 <input value={email} onChange={(e) => { setEmail(e.target.value) }} className='w-full h-8 border-[1px] rounded-xl px-3 py-5' type="text" placeholder='Email' id='email' />
 
-                <input value={password} onChange={(e) => { setPassword(e.target.value) }} className='w-full h-8 border-[1px] rounded-xl px-3 py-5' type="text" placeholder='Enter Password' id='password' />
+                <input value={password} onChange={(e) => { setPassword(e.target.value) }} className='w-full h-8 border-[1px] rounded-xl px-3 py-5' type="password" placeholder='Enter Password' id='password' />
 
 
 

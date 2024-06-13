@@ -1,9 +1,11 @@
 import { Table } from 'antd';
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const Atteandance = () => {
     const navigate=useNavigate();
+    const [allemployee, setAllemployees] = useState([])
 
     const columns = [
         {
@@ -25,70 +27,69 @@ const Atteandance = () => {
         
       ];
 
-      const data = [
-        {
-          key: '1',
-          name: 'John Brown',
-          post:"Manager",
-          email:"sarthaksood9@gmail.com",
-          attendance: "78%",
-          address: 'New York No. 1 Lake Park',
-        },
-        {
-          key: '1',
-          name: 'John Brown',
-          post:"Manager",
-          email:"sarthaksood9@gmail.com",
-          attendance: "78%",
-          address: 'New York No. 1 Lake Park',
-        },
-        {
-          key: '1',
-          name: 'John Brown',
-          post:"Manager",
-          email:"sarthaksood9@gmail.com",
-          attendance: "78%",
-          address: 'New York No. 1 Lake Park',
-        },
-        {
-          key: '1',
-          name: 'John Brown',
-          post:"Manager",
-          email:"sarthaksood9@gmail.com",
-          attendance: "78%",
-          address: 'New York No. 1 Lake Park',
-        },
-        {
-          key: '1',
-          name: 'John Brown',
-          post:"Manager",
-          email:"sarthaksood9@gmail.com",
-          attendance: "78%",
-          address: 'New York No. 1 Lake Park',
-        },
-        {
-          key: '1',
-          name: 'John Brown',
-          post:"Manager",
-          email:"sarthaksood9@gmail.com",
-          attendance: "78%",
-          address: 'New York No. 1 Lake Park',
-        },
-        
-      ];
+      
 
       const handleRowClick = (record) => {
     
             navigate('/att');
       };
+
+      const [d, setD] = useState("");
+
+    // setting/mapping backend data to prefered table schema :-
+
+    useEffect(() => {
+        if (allemployee) {
+            const mappedTasks = allemployee.map((task,i) => {
+                const da = new Date(task.TaskDeadLine);
+                return {
+                    key: task._id,
+                    name: task.name,
+                    post: task.post,
+                    email: task.email,
+                    attendance: `${56+i*5}%`,
+                };
+            });
+
+            setD(mappedTasks);
+        }
+    }, [allemployee])
+
+    console.log(d)
+
+
+
+
+
+
+    useEffect(() => {
+
+        const fetchEmployee = async () => {
+
+            await axios.get("http://localhost:4000/employees")
+                .then((req, res) => {
+                    setAllemployees(req.data);
+                })
+                .catch((e) => {
+                    console.log(e);
+                })
+        };
+        fetchEmployee();
+
+    }, [])
+
+    console.log(allemployee);
     return (
+
+
+      
         
 
         <div>
             <h1 className='text-[2rem] font-semibold'>
                 Attendance
             </h1>
-            <Table className='cursor-pointer' columns={columns} onRow={(record) => ({ onClick: () => handleRowClick(record) })} dataSource={data} size="middle" />
+            <Table className='cursor-pointer' columns={columns} onRow={(record) => ({ onClick: () => handleRowClick(record) })} dataSource={d} size="middle" />
         </div>
     )
 }
