@@ -1,5 +1,5 @@
 import ProjectModel from "../models/ProjectModel.js";
-import taskModel from "../models/TaskModel.js";
+import taskModel from "../models/taskModel.js";
 
 
 export const createProject = async (req, res) => {
