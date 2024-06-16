@@ -4,7 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
-import taskModel from "./models/TaskModel.js";
+// import taskModel from "./models/TaskModel.js";
 import userModel from "./models/userModel.js";
 
 
