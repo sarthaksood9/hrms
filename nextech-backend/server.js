@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 app.use(cors(
     {
-        origin: ["https://hrms-smoky.vercel.app"],
+        origin: ["https://hrms-smoky.vercel.app","http://localhost:4000"],
         methods: ["POST", "GET"],
         credentials: true
     }
