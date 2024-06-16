@@ -174,7 +174,7 @@ export function EditTask({ mod, formData }) {
   const [taskName, setProjectname] = useState(formData.name);
   const [deadline, setDeadline] = useState(data.join("-"));
   const [deadlineTime, setDeadlineTime] = useState(time);
-  const [status, setStatus] = useState("done");
+  const [status, setStatus] = useState("Done");
   const [taskDiscriptaion, setProjectDiscriptaion] = useState(formData.description);
   const [pills, setPills] = useState(new Set(formData.asigned));
 
@@ -377,7 +377,7 @@ export function EditTask({ mod, formData }) {
                 }}
                 className=" text-[0.9rem] h-[3rem] w-full  resize-none border border-gray-300 rounded-md px-4 py-2 block focus:outline-none focus:ring-[#001063] focus:border-[#001063] "
               >
-                <option value="done">Done</option>
+                <option value="Done">Done</option>
                 <option value="pandind">Panding</option>
 
               </select>
@@ -681,8 +681,8 @@ export function AddTask({ formData , mod }) {
                 }}
                 className=" text-[0.9rem] h-[3rem] w-full  resize-none border border-gray-300 rounded-md px-4 py-2 block focus:outline-none focus:ring-[#001063] focus:border-[#001063] "
               >
-                <option value="Pandind">Panding</option>
-                <option value="Done">Done</option>
+                <option value="pandind">Panding</option>
+                <option value="done">Done</option>
 
               </select>
             </div>

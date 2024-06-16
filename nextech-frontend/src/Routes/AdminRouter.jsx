@@ -9,6 +9,7 @@ import Silder from '../components/Silder'
 import { Route, Routes } from 'react-router-dom'
 import Addemployee from '../components/Addemployee'
 import Addproject from '../components/Addproject'
+import Test from '../components/Test'
 
 const AdminRouter = () => {
     return (
@@ -23,6 +24,7 @@ const AdminRouter = () => {
                     <Route path='/project/:projectId' element={<Project />} />
                     <Route path='/create' element={<Addemployee />} />
                     <Route path='/addproject' element={<Addproject />} />
+                    <Route path='/test' element={<Test />} />
                 </Routes>
             </Silder>
         </>
