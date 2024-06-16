@@ -37,7 +37,7 @@ connectDatabase();
 
 
 app.get("/", (req, res) => {
-    res.send("hi")
+    res.json({names:"hi"});
 })
 
 
