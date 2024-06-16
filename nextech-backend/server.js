@@ -170,3 +170,6 @@ app.get('/employees', async (req, res) => {
 app.listen(4000, () => {
     console.log("sever is working on 4000");
 })
+
+
+export default app;
