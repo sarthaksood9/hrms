@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { taskSchema } from "./TaskModel.js";
+import { taskSchema } from "./taskModel.js";
 
 
 const ProjectSchema = new mongoose.Schema({
