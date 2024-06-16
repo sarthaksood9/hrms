@@ -13,7 +13,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use(cors());
+app.use(cors(
+    {
+        origin: ["https://hrms-smoky.vercel.app"],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+));
 
 
 const connectDatabase = () => {
