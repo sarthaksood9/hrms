@@ -10,7 +10,7 @@ const Projects = () => {
     const [projects, setProjects] = useState();
     useEffect(() => {
         const fatchProjects = async () => {
-            await axios.get("http://localhost:4000/api/v1/admin/projects").
+            await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/projects`).
                 then((req, res) => {
                     setProjects(req.data);
                 })
@@ -21,6 +21,9 @@ const Projects = () => {
         fatchProjects();
     }, [])
 
+    const key=process.env.REACT_APP_BASE_URL;
+
+    console.log(key);
     console.log(projects)
 
     return (

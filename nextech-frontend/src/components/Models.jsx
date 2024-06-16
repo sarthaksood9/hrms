@@ -203,7 +203,7 @@ export function EditTask({ mod, formData }) {
 
     const fetchEmployee = async () => {
 
-      await axios.get("http://localhost:4000/allemployees")
+      await axios.get(`${process.env.REACT_APP_BASE_URL}/allemployees`)
         .then((req, res) => {
           setAllemployees(req.data);
          
@@ -247,7 +247,7 @@ export function EditTask({ mod, formData }) {
         setSuggestion([]);
         return;
       }
-      axios.get("http://localhost:4000/allemployees")
+      axios.get(`${process.env.REACT_APP_BASE_URL}/allemployees`)
         .then((req, res) => {
           setSuggestion(req.data);
         })
@@ -273,7 +273,7 @@ export function EditTask({ mod, formData }) {
 
   const handleUpdate = () => {
     console.log("asfas");
-    axios.put(`http://localhost:4000/tasks/${formData._id}`, {
+    axios.put(`${process.env.REACT_APP_BASE_URL}/tasks/${formData._id}`, {
       TaskName: taskName,
       project: formData.project,
       assignedTo: Array.from(seclectedEmpId),
@@ -506,7 +506,7 @@ export function AddTask({ formData , mod }) {
 
     const fetchEmployee = async () => {
 
-      await axios.get("http://localhost:4000/allemployees")
+      await axios.get(`${process.env.REACT_APP_BASE_URL}/allemployees`)
         .then((req, res) => {
           setAllemployees(req.data);
           
@@ -550,7 +550,7 @@ export function AddTask({ formData , mod }) {
         setSuggestion([]);
         return;
       }
-      axios.get("http://localhost:4000/allemployees")
+      axios.get(`${process.env.REACT_APP_BASE_URL}/allemployees`)
         .then((req, res) => {
           setSuggestion(req.data);
         })
@@ -576,7 +576,7 @@ export function AddTask({ formData , mod }) {
 
   const handleUpdate = () => {
     console.log("asfas");
-    axios.post(`http://localhost:4000/tasks`, {
+    axios.post(`${process.env.REACT_APP_BASE_URL}/tasks`, {
       TaskName: taskName,
       assignedTo: Array.from(seclectedEmpId),
       TaskDiscription: taskDiscriptaion,
@@ -814,7 +814,7 @@ export function AddNewTask({ tasks , mod,addTask }) {
 
     const fetchEmployee = async () => {
 
-      await axios.get("http://localhost:4000/allemployees")
+      await axios.get(`${process.env.REACT_APP_BASE_URL}/allemployees`)
         .then((req, res) => {
           setAllemployees(req.data);
         })
@@ -857,7 +857,7 @@ export function AddNewTask({ tasks , mod,addTask }) {
         setSuggestion([]);
         return;
       }
-      axios.get("http://localhost:4000/allemployees")
+      axios.get(`${process.env.REACT_APP_BASE_URL}/allemployees`)
         .then((req, res) => {
           setSuggestion(req.data);
         })
