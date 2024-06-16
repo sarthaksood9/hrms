@@ -14,11 +14,11 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(cors(
-    {
-        origin: ["https://hrms-smoky.vercel.app/","http://localhost:3000"],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
+    // {
+    //     origin: ["https://hrms-smoky.vercel.app/","http://localhost:3000"],
+    //     methods: ["POST", "GET"],
+    //     credentials: true
+    // }
 ));
 
 
