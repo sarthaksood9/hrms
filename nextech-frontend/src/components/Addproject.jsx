@@ -64,7 +64,7 @@ const Addproject = () => {
 
         const fetchEmployee = async () => {
 
-            await axios.get("http://localhost:4000/allemployees")
+            await axios.get(`${process.env.REACT_APP_BASE_URL}/allemployees`)
                 .then((req, res) => {
                     setAllemployees(req.data);
                 })
@@ -107,7 +107,7 @@ const Addproject = () => {
                 setSuggestion([]);
                 return;
             }
-            axios.get("http://localhost:4000/allemployees")
+            axios.get("${process.env.REACT_APP_BASE_URL}/allemployees")
                 .then((req, res) => {
                     setSuggestion(req.data);
                 })
@@ -133,7 +133,7 @@ const Addproject = () => {
 
     const handleUpdate = () => {
         console.log("asfas");
-        axios.post(`http://localhost:4000/api/v1/admin/createProject`, {
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/createProject`, {
             Projectname:ProjectName,
             ProjectMambers:Array.from(seclectedEmpId),
             ProjectDiscription:ProjectDiscriptaion,

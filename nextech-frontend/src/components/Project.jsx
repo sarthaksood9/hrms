@@ -104,7 +104,7 @@ const Project = () => {
 
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/protasks/${projectId}`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/protasks/${projectId}`)
       .then((req, res) => {
         setTasks(req.data);
       })
@@ -183,7 +183,7 @@ const Project = () => {
 
   useEffect(() => {
     const fatchProject = async () => {
-      await axios.get(`http://localhost:4000/api/v1/admin/projectinfo/${projectId}`)
+      await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/admin/projectinfo/${projectId}`)
         .then((req, res) => {
           setProjectData(req.data);
         })

@@ -104,7 +104,7 @@ const Payroll = () => {
 
         const fetchEmployee = async () => {
 
-            await axios.get("http://localhost:4000/employees")
+            await axios.get(`${process.env.REACT_APP_BASE_URL}/employees`)
                 .then((req, res) => {
                     setAllemployees(req.data);
                 })

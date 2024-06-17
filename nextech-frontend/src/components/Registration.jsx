@@ -55,7 +55,7 @@ export const SignIn = () => {
 
 
     const hendleLogin=(email,password)=>{
-        axios.post("http://localhost:4000/api/v1/user/login",{email,password})
+        axios.post(`http://localhost:4000/api/v1/user/login`,{email,password})
         .then((req,res)=>{
             user.logIn(req.data.user);
             navigate("/");

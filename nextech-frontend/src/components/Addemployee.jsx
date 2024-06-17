@@ -30,7 +30,7 @@ function EmployeeForm() {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log("asfas");
-        axios.post(`http://localhost:4000/api/v1/user/registration`,employee ).then(() => {
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/user/registration`,employee ).then(() => {
             console.log("done");
             toast.success("Employee Added Successfully")
             navigate("/projects");
