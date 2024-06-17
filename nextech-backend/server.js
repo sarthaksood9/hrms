@@ -14,11 +14,11 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(cors(
-    // {
-    //     origin: ["https://hrms-two-steel.vercel.app/","http://localhost:3000"],
-    //     methods: ["POST", "GET"],
-    //     credentials: true
-    // }
+    {
+        origin: ["https://hrms-two-steel.vercel.app/","http://localhost:3000"],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
 ));
 
 
